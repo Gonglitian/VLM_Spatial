@@ -1,0 +1,39 @@
+# conf/train_qwen_small.yaml - 小规模训练配置
+run:
+  cuda_visible_devices: "1"
+
+model:
+  name: unsloth/Qwen2.5-VL-3B-Instruct-bnb-4bit
+  load_in_4bit: true
+  gradient_ckpt: "unsloth"
+
+lora:
+  r: 32           # 较小的LoRA rank，适合较小的GPU
+  alpha: 32
+  dropout: 0.1
+  finetune_vision_layers: true
+  finetune_language_layers: true
+  finetune_attention_modules: true
+  finetune_mlp_modules: true
+
+train:
+  batch_size: 4   # 较小的batch size
+  grad_accum: 4   # 更大的梯度累积来补偿
+  learning_rate: 1e-4
+  num_epochs: 1
+  max_seq_length: 2048  # 较短的序列长度
+  fp16: true            # 使用fp16而不是bf16
+  bf16: false
+  optim: adamw_8bit
+  output_dir: outputs_small
+  wandb:
+    project: latex_ocr_small
+    run_name: qwen_lora32_small
+
+data:
+  dataset_name: "unsloth/LaTeX_OCR"
+  split: "train"
+  max_samples: 100                     # 限制样本数用于快速测试
+  num_proc: 1                          # 数据处理进程数（固定单线程）
+  instruction: "Write the LaTeX representation for this image."  # 指令提示
+  shuffle: true                        # 是否打乱数据 

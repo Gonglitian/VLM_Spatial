@@ -26,17 +26,17 @@ def filter_none_values(config_dict):
     return {k: v for k, v in config_dict.items() if v is not None}
 
 
-def convert_to_conversation(sample, instruction):
-    """将数据集样本转换为对话格式（完全按照unsloth示例格式）"""
+def convert_to_conversation(sample):
+    """将数据集样本转换为对话格式（适配question+answer格式）"""
     conversation = [
         { "role": "user",
           "content" : [
-            {"type" : "text",  "text"  : instruction},
+            {"type" : "text",  "text"  : sample["question"]},
             {"type" : "image", "image" : sample["image"]} ]
         },
         { "role" : "assistant",
           "content" : [
-            {"type" : "text",  "text"  : sample["text"]} ]
+            {"type" : "text",  "text"  : sample["answer"]} ]
         },
     ]
     return { "messages" : conversation }
@@ -170,12 +170,11 @@ def main(cfg: DictConfig):
     if eval_dataset:
         print(f"📊 最终验证样本数: {len(eval_dataset)}")
     
-    # 数据格式转换 - 最简单方式
-    instruction = getattr(cfg.data, 'instruction', "Please convert this image to LaTeX code.")
-    converted_dataset = [convert_to_conversation(sample, instruction) for sample in tqdm(ds, desc="🔄 转换训练数据")]
+    # 数据格式转换 - 使用每个样本的question作为指令
+    converted_dataset = [convert_to_conversation(sample) for sample in tqdm(ds, desc="🔄 转换训练数据")]
     eval_converted_dataset = None
     if eval_dataset:
-        eval_converted_dataset = [convert_to_conversation(sample, instruction) for sample in tqdm(eval_dataset, desc="🔄 转换验证数据")]
+        eval_converted_dataset = [convert_to_conversation(sample) for sample in tqdm(eval_dataset, desc="🔄 转换验证数据")]
     
     print("✅ 数据转换完成!")
     

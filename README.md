@@ -152,3 +152,10 @@ MIT License - see LICENSE file for details.
 ## 🤝 Contributing
 
 Contributions welcome! Please read our contributing guidelines and submit pull requests. 
+
+## Blender
+lib install 
+
+```python
+~/apps/blender-4.4.3-linux-x64/4.4/python/bin/python3.11 -m pip install tqdm
+```

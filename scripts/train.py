@@ -42,7 +42,7 @@ def convert_to_conversation(sample):
     return { "messages" : conversation }
 
 
-@hydra.main(version_base="1.1", config_path="../conf", config_name="train_qwen")
+@hydra.main(version_base="1.1", config_path="../configs", config_name="train_qwen")
 def main(cfg: DictConfig):
     print("=== 🔧 配置信息 ===")
     print(OmegaConf.to_yaml(cfg))

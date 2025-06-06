@@ -49,7 +49,6 @@ data:
   max_samples: null                                      # 最大样本数 (null为全部)
   shuffle: true                                          # 是否打乱数据
   streaming: false                                       # 是否流式加载
-  num_proc: 4                                           # 并行处理进程数
   val_split_ratio: 0.1                                 # 验证集比例 (0表示不分割)
 
 # ┌─────────────────────────────────────────────────────────────────────────┐

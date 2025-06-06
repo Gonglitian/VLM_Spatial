@@ -2,3 +2,14 @@ unsloth_compiled_cache/
 outputs/
 IsaacLab/
 dataset_samples/
+final_model/
+comparison_samples/
+visualization_results/
+data/
+blender_data/
+blender_data/data/
+# pycache
+__pycache__/
+scripts/_pycache/
+scripts/blender/_pycache/
+frontend/_pycache/
